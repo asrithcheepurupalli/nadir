@@ -1,0 +1,518 @@
+/* ===========================================================================
+   NADIR — components and sections
+   =========================================================================== */
+
+/* ---------------------------------------------------------------- nav ---- */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  transition: background var(--med) var(--ease), border-color var(--med) var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+.nav.is-lifted {
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: saturate(150%) blur(14px);
+  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  border-bottom-color: rgba(25, 27, 25, 0.12);
+}
+
+/* The tone flip. Sections declare data-tone and the bar follows. */
+.nav.is-dark {
+  color: var(--night-ink);
+}
+
+.nav.is-dark.is-lifted {
+  background: color-mix(in srgb, var(--night) 76%, transparent);
+  border-bottom-color: rgba(232, 226, 212, 0.16);
+}
+
+.nav-in {
+  max-width: 78rem;
+  margin-inline: auto;
+  padding: 0.9rem var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28em;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.34em;
+  margin-right: auto;
+}
+
+/* The dot is the mark: the point on the ground beneath the word. */
+.nav-mark-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  transform: translateY(-0.05em);
+  transition: transform var(--med) var(--ease);
+}
+
+.nav-mark:hover .nav-mark-dot {
+  transform: translateY(0.35em);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.6rem;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.72;
+  position: relative;
+  padding-block: 0.3rem;
+  transition: opacity var(--fast) var(--ease);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--med) var(--ease);
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid currentColor;
+  opacity: 0.85;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease),
+    opacity var(--fast) var(--ease);
+}
+
+.nav-cta:hover {
+  opacity: 1;
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--paper-lit);
+}
+
+.nav-burger {
+  display: none;
+  padding: 0.5rem;
+  margin-right: -0.5rem;
+}
+
+.nav-burger-icon {
+  display: block;
+  width: 22px;
+  height: 12px;
+  position: relative;
+}
+
+.nav-burger-icon i {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform var(--med) var(--ease), opacity var(--fast) var(--ease);
+}
+
+.nav-burger-icon i:nth-child(1) {
+  top: 0;
+}
+.nav-burger-icon i:nth-child(2) {
+  bottom: 0;
+}
+
+.nav-burger-icon.is-open i:nth-child(1) {
+  transform: translateY(5.25px) rotate(45deg);
+}
+.nav-burger-icon.is-open i:nth-child(2) {
+  transform: translateY(-5.25px) rotate(-45deg);
+}
+
+/* Mobile sheet */
+.nav-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: var(--night);
+  color: var(--night-ink);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity var(--med) var(--ease);
+}
+
+.nav-sheet.is-open {
+  opacity: 1;
+}
+
+.nav-sheet nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.nav-sheet a {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  text-decoration: none;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 11vw, 3rem);
+  line-height: 1.15;
+  opacity: 0;
+  transform: translateY(0.6rem);
+}
+
+.nav-sheet.is-open a {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--med) var(--ease), transform var(--med) var(--ease);
+  transition-delay: calc(var(--i) * 55ms + 90ms);
+}
+
+.nav-sheet a .anno {
+  color: var(--amber);
+}
+
+/* ---------------------------------------------------------------- hero --- */
+
+.hero {
+  position: relative;
+  padding-top: clamp(6rem, 14vh, 9rem);
+  padding-bottom: clamp(3rem, 8vh, 6rem);
+  overflow: hidden;
+}
+
+.hero-in {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+  min-height: min(74vh, 44rem);
+}
+
+.hero-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+
+.hero-eyebrow .anno-amber {
+  letter-spacing: 0.34em;
+  font-weight: 700;
+}
+
+.hero-eyebrow-def {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-3);
+}
+
+.hero-h1 {
+  margin-bottom: clamp(1.25rem, 3vh, 1.75rem);
+}
+
+.hero-h1 .serif-italic {
+  color: var(--amber);
+}
+
+.hero-lede {
+  max-width: 30rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-sub {
+  max-width: 30rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+  display: grid;
+  gap: 0.8em;
+  margin-bottom: 2rem;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* The legend strip under the fold */
+.hero-legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding-top: 1.75rem;
+  margin-top: clamp(2rem, 5vh, 3.5rem);
+  border-top: 1px solid rgba(25, 27, 25, 0.16);
+}
+
+.hero-legend-item {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+
+.hero-legend-item strong {
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.hero-legend-note {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------- limb diagram ---- */
+
+.limb {
+  margin: 0;
+}
+
+.limb-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* The section renders at roughly half its viewBox width, so every stroke and
+   glyph here is specified at twice the weight it should appear. Sized for the
+   rendered result, not the coordinate space. */
+
+.limb-grid line {
+  stroke: var(--ink);
+  stroke-opacity: 0.12;
+  stroke-width: 2;
+}
+
+.limb-grid line.is-datum {
+  stroke-opacity: 0.26;
+  stroke-dasharray: 2 6;
+}
+
+.limb-grid text,
+.limb-ticks text {
+  font-family: var(--mono);
+  font-size: 17px;
+  fill: var(--ink-4);
+  letter-spacing: 0.04em;
+}
+
+.limb-ticks line {
+  stroke: var(--ink);
+  stroke-opacity: 0.3;
+  stroke-width: 2;
+}
+
+.limb-axis,
+.limb-note {
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  fill: var(--ink-4);
+}
+
+.limb-ground {
+  fill: none;
+  stroke: var(--tan);
+  stroke-width: 3;
+  stroke-opacity: 0.9;
+}
+
+/* The level datum is what the dip angle is measured from, so it is drawn the
+   way a chart draws a reference: dashed, quiet, and clearly not terrain. */
+.limb-datum {
+  stroke: var(--ink);
+  stroke-opacity: 0.32;
+  stroke-width: 2;
+  stroke-dasharray: 8 8;
+}
+
+.limb-ray {
+  stroke: var(--amber);
+  stroke-width: 3;
+}
+
+/* The cone of everything a window can show you. It is a startlingly thin
+   wedge, and that thinness is the argument. */
+.limb-cone {
+  fill: var(--cyan);
+  fill-opacity: 0.07;
+}
+
+.limb-horizon {
+  stroke: var(--ink);
+  stroke-opacity: 0.42;
+  stroke-width: 2;
+}
+
+.limb-horizon-mark line {
+  stroke: var(--ink);
+  stroke-opacity: 0.42;
+  stroke-width: 2;
+}
+
+.limb-note.is-lit {
+  fill: var(--ink-3);
+}
+
+.limb-arc {
+  fill: none;
+  stroke: var(--amber);
+  stroke-opacity: 0.6;
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+
+.limb-ellipse {
+  fill: var(--amber);
+  fill-opacity: 0.18;
+  stroke: var(--amber);
+  stroke-opacity: 0.5;
+  stroke-width: 2;
+}
+
+.limb-hit line {
+  stroke: var(--amber);
+  stroke-width: 2.4;
+}
+
+.limb-hit-dot {
+  fill: var(--amber);
+}
+
+.limb-hit-halo {
+  fill: var(--amber);
+  fill-opacity: 0.1;
+}
+
+.limb-ac path {
+  stroke: var(--ink);
+  stroke-width: 2.6;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.limb-ac-dot {
+  fill: var(--ink);
+}
+
+.limb-read {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(25, 27, 25, 0.16);
+}
+
+.limb-read-item {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.limb-read-item strong {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+/* Confidence reads in the chart's own language: green while the answer is
+   solid, warming through cyan and tan to caution amber as the error grows,
+   then going quietly grey at the point where it stops claiming anything. */
+.band[data-band='pinned'] {
+  color: var(--green);
+}
+.band[data-band='confident'] {
+  color: var(--cyan);
+}
+.band[data-band='approximate'] {
+  color: var(--tan);
+}
+.band[data-band='coarse'] {
+  color: var(--amber);
+  font-weight: 600;
+}
+.band[data-band='unresolved'] {
+  color: var(--ink-4);
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 62rem) {
+  .hero-in {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    min-height: 0;
+  }
+
+  .hero-lede,
+  .hero-sub {
+    max-width: 34rem;
+  }
+
+  .hero-legend {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-burger {
+    display: block;
+  }
+}
+
+@media (max-width: 40rem) {
+  .limb-read {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-eyebrow-def {
+    width: 100%;
+  }
+}
