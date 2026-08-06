@@ -5,21 +5,18 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "comment": "Never cache the worker. A cached service worker is a site that can never be updated, because the copy telling the browser about the new build is itself stale.",
       "source": "/sw.js",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     },
     {
-      "comment": "Build assets are fingerprinted, so they can be cached forever.",
       "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "comment": "The atlas is not fingerprinted. Revalidate hourly, serve stale for a week while it does, and let the service worker hold the offline copy.",
       "source": "/pack/(.*)",
       "headers": [
         {
@@ -33,7 +30,10 @@
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(self), geolocation=(self), microphone=()" }
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), geolocation=(self), microphone=()"
+        }
       ]
     }
   ]

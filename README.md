@@ -89,3 +89,15 @@ something if the error maths can be checked by someone who does not trust it.
 Map data: [Natural Earth](https://www.naturalearthdata.com/), public domain.
 
 Built by [made. by ac](https://made-by-ac.com).
+
+## Deploy notes
+
+`vercel.json` sets three cache policies that matter:
+
+- **`/sw.js` is never cached.** A cached service worker is a site that can never
+  be updated, because the copy telling the browser about the new build is itself
+  stale.
+- **`/assets/*` is immutable**, because Vite fingerprints those filenames.
+- **`/pack/*` revalidates hourly and serves stale for a week** while it does.
+  The atlas is not fingerprinted, and the service worker holds the offline copy
+  anyway.
