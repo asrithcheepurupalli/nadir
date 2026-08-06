@@ -1,0 +1,15 @@
+{
+  "name": "NADIR",
+  "short_name": "NADIR",
+  "description": "Name the ground from 11 kilometres up, with the radio off.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#efe9db",
+  "theme_color": "#efe9db",
+  "orientation": "any",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

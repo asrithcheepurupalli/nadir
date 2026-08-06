@@ -948,3 +948,624 @@ section.get {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================== honesty === */
+
+/* The one dark act in the piece. A chart read at night, and the section where
+   the product admits what it cannot do. */
+.honesty {
+  background: var(--night);
+  color: var(--night-ink);
+}
+
+.honesty .panel-id,
+.honesty .anno {
+  color: rgba(232, 226, 212, 0.5);
+}
+
+.honesty .lede {
+  color: rgba(232, 226, 212, 0.72);
+}
+
+.honesty .serif-italic {
+  color: var(--amber-lit);
+}
+
+.hon-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.hon-bar {
+  margin: 0 0 1.5rem;
+}
+
+.hon-bar figcaption {
+  margin-bottom: 0.6rem;
+}
+
+.hon-bar canvas {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+
+.hon-slider {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.hon-slider input[type='range'] {
+  width: 100%;
+  accent-color: var(--amber-lit);
+}
+
+.hon-stops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.hon-stops button {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 0.28rem 0.5rem;
+  border: 1px solid rgba(232, 226, 212, 0.24);
+  color: rgba(232, 226, 212, 0.66);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.hon-stops button:hover {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--paper-lit);
+}
+
+.hon-answer {
+  border-left: 2px solid var(--amber);
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1.75rem;
+}
+
+.hon-answer-name {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 1.2rem + 2.4vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+/* As confidence drains, so does the typography's confidence. */
+.hon-answer[data-band='coarse'] .hon-answer-name,
+.hon-answer[data-band='unresolved'] .hon-answer-name {
+  font-style: italic;
+  opacity: 0.66;
+}
+
+.hon-answer[data-band='unresolved'] {
+  border-left-color: rgba(232, 226, 212, 0.3);
+}
+
+.hon-answer-note {
+  font-size: 0.85rem;
+  color: rgba(232, 226, 212, 0.52);
+}
+
+.hon-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.25rem;
+  margin: 0 0 1.75rem;
+}
+
+.hon-stat dt {
+  margin-bottom: 0.25rem;
+}
+
+.hon-stat dd {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--night-ink);
+}
+
+.hon-stat.is-big {
+  grid-column: 1 / -1;
+}
+
+.hon-stat.is-big dd {
+  font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2rem);
+  color: var(--amber-lit);
+}
+
+.hon-note {
+  display: grid;
+  gap: 0.9em;
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+.hon-note span {
+  color: rgba(232, 226, 212, 0.6);
+}
+
+.hon-punch {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding-top: 2rem;
+  border-top: 1px solid rgba(232, 226, 212, 0.18);
+}
+
+.hon-punch-item {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.hon-punch-item strong {
+  font-size: clamp(1.8rem, 1.2rem + 2.6vw, 3.2rem);
+  font-weight: 500;
+  color: var(--amber-lit);
+  line-height: 1;
+}
+
+.hon-punch-x {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(232, 226, 212, 0.55);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ============================================================= geometry === */
+
+.geo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(25, 27, 25, 0.14);
+  border: 1px solid rgba(25, 27, 25, 0.14);
+  margin-bottom: clamp(2.5rem, 6vh, 4rem);
+}
+
+.geo-card {
+  background: var(--paper);
+  padding: 1.5rem 1.25rem;
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.geo-card h3 {
+  line-height: 1.05;
+}
+
+.geo-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.geo-table {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin: 0 0 clamp(2.5rem, 6vh, 4rem);
+}
+
+.geo-table figcaption {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.geo-table figcaption p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.geo-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.geo-table th {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  text-align: right;
+  padding: 0 0 0.6rem;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.3);
+}
+
+.geo-table th:first-child,
+.geo-table td:first-child {
+  text-align: left;
+}
+
+.geo-table td {
+  text-align: right;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.1);
+  color: var(--ink-2);
+}
+
+.geo-err {
+  color: var(--amber);
+}
+
+.geo-row-limit td {
+  border-bottom: 0;
+  color: var(--ink-4);
+}
+
+.geo-compress > p {
+  margin: 0.9rem 0 1.75rem;
+  color: var(--ink-3);
+}
+
+.geo-bars {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.geo-bars li {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) 9.5rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* The bar length is the angular share of the window, so the collapse toward
+   the horizon is visible rather than merely stated. */
+.geo-bar {
+  height: 10px;
+  background: var(--tan);
+  opacity: 0.55;
+  width: var(--pct);
+  min-width: 2px;
+}
+
+.geo-bars li:last-child .geo-bar,
+.geo-bars li:nth-last-child(2) .geo-bar {
+  background: var(--amber);
+  opacity: 0.8;
+}
+
+.geo-bars .num {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.geo-compress-note {
+  font-size: 0.95rem;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* ================================================================= pack === */
+
+.pack-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.pack-layers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.pack-layers li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 10rem) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.1);
+}
+
+.pack-layers strong {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.pack-layers-k {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+}
+
+.pack-layers-note {
+  font-size: 0.82rem;
+  color: var(--ink-4);
+  text-wrap: pretty;
+}
+
+.pack-aside {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.pack-stat {
+  display: grid;
+  gap: 0.3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+.pack-stat strong {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.pack-copy p {
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+.pack-caveat {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(25, 27, 25, 0.14);
+  text-transform: none;
+  letter-spacing: 0.06em;
+  color: var(--ink-4);
+  line-height: 1.7;
+}
+
+/* ================================================================== get === */
+
+.get {
+  background: var(--night);
+  color: var(--night-ink);
+}
+
+.get .panel-id {
+  color: rgba(232, 226, 212, 0.5);
+}
+
+.get .serif-italic {
+  color: var(--amber-lit);
+}
+
+.get-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.get-h2 {
+  margin: 0.75rem 0 1.5rem;
+}
+
+.get-copy p {
+  color: rgba(232, 226, 212, 0.66);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.get-list {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.get-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 0.9rem;
+  color: rgba(232, 226, 212, 0.72);
+}
+
+.get-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  background: var(--amber);
+}
+
+.get-card {
+  border: 1px solid rgba(232, 226, 212, 0.22);
+  padding: clamp(1.25rem, 4%, 2rem);
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.get-card .anno {
+  color: var(--amber-lit);
+}
+
+.get-card-lede {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(232, 226, 212, 0.78);
+}
+
+.get-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.get-form input {
+  padding: 0.8rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(232, 226, 212, 0.3);
+  color: var(--night-ink);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.get-form input::placeholder {
+  color: rgba(232, 226, 212, 0.34);
+}
+
+.get-form .btn {
+  justify-content: center;
+}
+
+.get-done {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: rgba(232, 226, 212, 0.72);
+}
+
+.get-card-note {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgba(232, 226, 212, 0.44);
+}
+
+.get-card-note a,
+.close a {
+  color: inherit;
+  text-decoration-color: var(--amber);
+  text-underline-offset: 3px;
+}
+
+/* ================================================================ close === */
+
+.close {
+  padding-block: clamp(3rem, 9vh, 6rem) 2rem;
+  border-top: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+.close-top {
+  margin-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.close-top .serif-italic {
+  color: var(--amber);
+}
+
+.close-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 2.5rem;
+}
+
+.close-col {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.close-col p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.close-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.close-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+/* ========================================================== responsive === */
+
+@media (max-width: 62rem) {
+  .hon-grid,
+  .geo-table,
+  .pack-grid,
+  .get-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .geo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hon-punch {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    text-align: left;
+  }
+
+  .hon-punch-x {
+    text-align: left;
+  }
+
+  .close-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 40rem) {
+  .geo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .geo-bars li {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 0.5rem 0.75rem;
+  }
+
+  .geo-bars .num {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+
+  .pack-layers li {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 0.35rem 0.75rem;
+  }
+
+  .pack-layers-note {
+    grid-column: 2 / -1;
+  }
+
+  .hon-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .close-bar {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+}
+
+.hon-stops button.is-on {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--paper-lit);
+}

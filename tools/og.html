@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Newsreader:ital,opsz,wght@0,6..72,200..600;1,6..72,200..500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        width: 1200px; height: 630px;
+        background: #efe9db;
+        font-family: 'Newsreader', Georgia, serif;
+        color: #191b19;
+        position: relative;
+        overflow: hidden;
+      }
+      .grid {
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(25,27,25,.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(25,27,25,.05) 1px, transparent 1px);
+        background-size: 70px 70px;
+      }
+      .in { position: relative; padding: 64px 72px; height: 100%; display: flex; flex-direction: column; }
+      .mark {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700; font-size: 20px; letter-spacing: .38em;
+        display: flex; align-items: baseline; gap: 8px;
+      }
+      .dot { width: 9px; height: 9px; border-radius: 50%; background: #b8510e; }
+      h1 {
+        font-weight: 300; font-size: 118px; line-height: .93;
+        letter-spacing: -.03em; margin-top: auto;
+      }
+      i { font-style: italic; color: #b8510e; }
+      p {
+        font-size: 27px; line-height: 1.4; color: #3f423d;
+        max-width: 780px; margin-top: 26px;
+      }
+      .foot {
+        margin-top: auto; padding-top: 30px;
+        border-top: 1px solid rgba(25,27,25,.2);
+        display: flex; gap: 52px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px; letter-spacing: .13em; text-transform: uppercase;
+        color: #6b6d64;
+      }
+      .foot b { display: block; color: #191b19; font-size: 21px; letter-spacing: -.01em; margin-top: 6px; font-weight: 500; }
+      /* the section, echoing the hero */
+      .sec { position: absolute; right: -40px; top: 150px; width: 520px; height: 300px; opacity: .5; }
+    </style>
+  </head>
+  <body>
+    <div class="grid"></div>
+    <svg class="sec" viewBox="0 0 520 300">
+      <path d="M 30 60 Q 260 60 500 250" fill="none" stroke="#9c7440" stroke-width="2.5"/>
+      <line x1="30" y1="60" x2="500" y2="60" stroke="#191b19" stroke-opacity=".3" stroke-width="1.5" stroke-dasharray="7 7"/>
+      <line x1="30" y1="60" x2="330" y2="150" stroke="#b8510e" stroke-width="2.5"/>
+      <circle cx="330" cy="150" r="6" fill="#b8510e"/>
+      <circle cx="30" cy="60" r="4.5" fill="#191b19"/>
+    </svg>
+
+    <div class="in">
+      <div class="mark">NADIR<span class="dot"></span></div>
+      <h1>What <i>is</i> that?</h1>
+      <p>
+        Aim your camera out of an aircraft window and it names the ground below.
+        Offline, because the atlas is already on the phone.
+      </p>
+      <div class="foot">
+        <span>Horizon at cruise<b>3.20° below level</b></span>
+        <span>And it is<b>403 km away</b></span>
+        <span>The whole world<b>1.09 MB</b></span>
+      </div>
+    </div>
+  </body>
+</html>

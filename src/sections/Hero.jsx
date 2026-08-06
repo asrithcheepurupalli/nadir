@@ -1,5 +1,6 @@
 import LimbDiagram from '../components/LimbDiagram.jsx';
 import { horizonDip, castRay } from '../engine/geo.js';
+import { PACK } from '../data/pack-stats.js';
 
 const DIP = horizonDip(11300);
 const HORIZON = castRay({
@@ -83,10 +84,11 @@ export default function Hero() {
           </div>
           <div className="hero-legend-item">
             <span className="anno">Atlas on the device</span>
-            <strong className="num t-m">780 KB</strong>
+            <strong className="num t-m">{PACK.gzipMB} MB</strong>
             <span className="hero-legend-note">
-              Coastlines, rivers, ranges, seas and 2,130 named places. The whole
-              world, no signal.
+              Coastlines, rivers, ranges, seas and{' '}
+              {PACK.total.toLocaleString()} named features. The whole world, no
+              signal.
             </span>
           </div>
         </div>

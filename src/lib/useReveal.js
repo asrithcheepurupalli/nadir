@@ -30,7 +30,19 @@ export function useReveal(deps = []) {
       { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
     );
 
-    nodes.forEach((n) => io.observe(n));
+    nodes.forEach((n) => {
+      // Anything already at or above the viewport on load is shown outright
+      // rather than observed. The browser restores scroll position on reload
+      // and a hash link jumps straight down the page, and in both cases the
+      // content above never intersects again, so it would stay invisible for
+      // the whole session. Reveal is an entrance, not a gate.
+      if (n.getBoundingClientRect().top < window.innerHeight * 0.9) {
+        n.classList.add('is-in');
+        return;
+      }
+      io.observe(n);
+    });
+
     return () => io.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

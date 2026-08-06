@@ -252,6 +252,9 @@ export default function LimbDiagram() {
           <text x={sx(X_KM / 2)} y={PAD_T + PLOT_H + 52} textAnchor="middle" className="limb-axis">
             GROUND RANGE, KM
           </text>
+          {/* Kept short on purpose: rotated axis labels are clipped when the
+              string is longer than the plot is tall, which happens as soon as
+              the section is rendered at phone width. */}
           <text
             x={18}
             y={PAD_T + PLOT_H / 2}
@@ -259,7 +262,7 @@ export default function LimbDiagram() {
             className="limb-axis"
             transform={`rotate(-90 18 ${PAD_T + PLOT_H / 2})`}
           >
-            HEIGHT ABOVE DATUM, KM
+            HEIGHT, KM
           </text>
         </g>
 
