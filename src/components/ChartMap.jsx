@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { toRad } from '../engine/geo.js';
+import { useCanvasPainter } from '../lib/useCanvasPainter.js';
 
 /**
  * The moving map, drawn as a sectional.
@@ -31,53 +31,23 @@ export default function ChartMap({
   spanKm = 420,
   className = '',
 }) {
-  const canvasRef = useRef(null);
-  const stateRef = useRef({ atlas, observer, fix, result, spanKm });
-  stateRef.current = { atlas, observer, fix, result, spanKm };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    let raf = 0;
-    let alive = true;
-
-    const palette = {
+  const palette = {
       paper: CSS('--paper') || '#efe9db',
       paper2: CSS('--paper-2') || '#e7e0cf',
       ink: CSS('--ink') || '#191b19',
       ink3: CSS('--ink-3') || '#6b6d64',
       ink4: CSS('--ink-4') || '#9a9a8d',
-      cyan: CSS('--cyan') || '#1a6f8a',
-      amber: CSS('--amber') || '#b8510e',
-      tan: CSS('--tan') || '#9c7440',
-      green: CSS('--green') || '#4a6b3f',
-    };
+    cyan: CSS('--cyan') || '#1a6f8a',
+    amber: CSS('--amber') || '#b8510e',
+    tan: CSS('--tan') || '#9c7440',
+    green: CSS('--green') || '#4a6b3f',
+  };
 
-    const draw = () => {
-      if (!alive) return;
-      const { atlas, observer, fix, result, spanKm } = stateRef.current;
-
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.getBoundingClientRect();
-      const w = Math.max(1, Math.round(rect.width));
-      const h = Math.max(1, Math.round(rect.height));
-
-      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-      }
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
+  const { ref } = useCanvasPainter((ctx, { w, h }) => {
       ctx.fillStyle = palette.paper;
       ctx.fillRect(0, 0, w, h);
 
-      if (!atlas || !observer || observer.lat == null) {
-        raf = requestAnimationFrame(draw);
-        return;
-      }
+      if (!atlas || !observer || observer.lat == null) return;
 
       const { lat: lat0, lon: lon0 } = observer;
       const kmPerDegLon = 111.32 * Math.cos(toRad(lat0));
@@ -357,30 +327,7 @@ export default function ChartMap({
         ctx.restore();
       }
 
-      raf = requestAnimationFrame(draw);
-    };
+  });
 
-    // Idle whenever the chart is off screen. It redraws the full vector set
-    // every frame, so leaving it running in the background is not free.
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          if (!raf) raf = requestAnimationFrame(draw);
-        } else {
-          cancelAnimationFrame(raf);
-          raf = 0;
-        }
-      },
-      { threshold: 0.02 }
-    );
-    io.observe(canvas);
-
-    return () => {
-      alive = false;
-      io.disconnect();
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className={`chartmap ${className}`} aria-hidden="true" />;
+  return <canvas ref={ref} className={`chartmap ${className}`} aria-hidden="true" />;
 }

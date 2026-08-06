@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { useCanvasPainter } from '../lib/useCanvasPainter.js';
 import { computeFix, SIGMA } from '../engine/uncertainty.js';
 import { horizonDip } from '../engine/geo.js';
 import { useAtlas, useNearViewport } from '../lib/useAtlas.js';
@@ -186,31 +187,10 @@ function Stat({ label, value, big }) {
  * drawing would make a 200 km error look like a 2 km one.
  */
 function ErrorBar({ fix, depression }) {
-  const canvasRef = useRef(null);
-  const stateRef = useRef({ fix, depression });
-  stateRef.current = { fix, depression };
+  const css = (v) =>
+    getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let raf = 0;
-
-    const css = (v) =>
-      getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-
-    const draw = () => {
-      const { fix } = stateRef.current;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.getBoundingClientRect();
-      const w = Math.max(1, Math.round(rect.width));
-      const h = Math.max(1, Math.round(rect.height));
-      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-      }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
+  const { ref } = useCanvasPainter((ctx, { w, h }) => {
 
       const MAX = 420; // km, the horizon
       const padL = 8;
@@ -245,7 +225,6 @@ function ErrorBar({ fix, depression }) {
         ctx.fillStyle = css('--amber-lit') || '#d97a22';
         ctx.font = `500 11px ${css('--mono') || 'monospace'}`;
         ctx.fillText('ABOVE THE HORIZON', padL, midY - 20);
-        raf = requestAnimationFrame(draw);
         return;
       }
 
@@ -278,20 +257,14 @@ function ErrorBar({ fix, depression }) {
       ctx.beginPath();
       ctx.arc(sx(g), midY, 3.5, 0, Math.PI * 2);
       ctx.fill();
-
-      raf = requestAnimationFrame(draw);
-    };
-
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
-  }, []);
+  });
 
   return (
     <figure className="hon-bar">
       <figcaption className="anno">
         Where the answer actually is, on the ground, in kilometres
       </figcaption>
-      <canvas ref={canvasRef} />
+      <canvas ref={ref} />
     </figure>
   );
 }
