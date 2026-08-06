@@ -1400,6 +1400,41 @@ section.get {
   background: var(--amber);
 }
 
+.offline-check {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(232, 226, 212, 0.22);
+  border-left: 2px solid var(--ink-4);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.offline-check[data-state='ready'] {
+  border-left-color: var(--amber-lit);
+}
+
+.offline-check .anno {
+  color: rgba(232, 226, 212, 0.5);
+}
+
+.offline-check-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(232, 226, 212, 0.78);
+}
+
+.offline-check[data-state='ready'] .offline-check-label {
+  color: var(--amber-lit);
+}
+
+.offline-check-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(232, 226, 212, 0.6);
+}
+
 .get-card {
   border: 1px solid rgba(232, 226, 212, 0.22);
   padding: clamp(1.25rem, 4%, 2rem);

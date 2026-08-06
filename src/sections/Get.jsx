@@ -1,8 +1,17 @@
 import { useState } from 'react';
+import { useOfflineReady } from '../lib/useOfflineReady.js';
+
+const OFFLINE_COPY = {
+  checking: { label: 'Checking', text: 'Working out whether the atlas is cached yet.' },
+  pending: { label: 'Not yet', text: 'The atlas is still arriving. Stay on this page a moment longer, on wifi or data, before the radio goes off.' },
+  ready: { label: 'Ready', text: 'The whole world is cached on this device. Reload this page in aeroplane mode right now and it will still work.' },
+  unsupported: { label: 'Unsupported', text: 'This browser cannot cache the atlas for offline use. Try Safari on iOS or Chrome on Android.' },
+};
 
 export default function Get() {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const offline = useOfflineReady();
 
   const submit = (e) => {
     e.preventDefault();
@@ -48,6 +57,12 @@ export default function Get() {
               <li>No account and no network access at all</li>
               <li>The geometry engine is open source, so the error maths can be checked</li>
             </ul>
+
+            <div className="offline-check" data-state={offline}>
+              <span className="anno">This device · offline status</span>
+              <strong className="offline-check-label">{OFFLINE_COPY[offline].label}</strong>
+              <p className="offline-check-text">{OFFLINE_COPY[offline].text}</p>
+            </div>
           </div>
 
           <div className="get-card" data-reveal data-delay="1">

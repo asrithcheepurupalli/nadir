@@ -11,7 +11,7 @@
  * failing.
  */
 
-const VERSION = 'nadir-v1';
+const VERSION = 'nadir-v2';
 const SHELL = `${VERSION}-shell`;
 const PACK = `${VERSION}-pack`;
 const FONTS = `${VERSION}-fonts`;
@@ -20,11 +20,19 @@ const KEEP = new Set([SHELL, PACK, FONTS]);
 
 self.addEventListener('install', (event) => {
   // The document and the pack are the two things worth having before anyone
-  // asks. Everything else arrives through runtime caching on first visit.
+  // asks. The pack used to arrive only when the demo scrolled into view,
+  // which is fine on the ground but means a visitor who loads the page and
+  // never scrolls boards the flight with an empty atlas. Fetch it here
+  // instead, once, on install, so a single page load on wifi is enough.
   event.waitUntil(
-    caches
-      .open(SHELL)
-      .then((c) => c.addAll(['/', '/favicon.svg', '/manifest.webmanifest']))
+    Promise.all([
+      caches
+        .open(SHELL)
+        .then((c) => c.addAll(['/', '/favicon.svg', '/manifest.webmanifest'])),
+      caches
+        .open(PACK)
+        .then((c) => c.add('/pack/world.json')),
+    ])
       .then(() => self.skipWaiting())
       .catch(() => self.skipWaiting())
   );
