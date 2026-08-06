@@ -516,3 +516,435 @@
     width: 100%;
   }
 }
+
+/* --------------------------------------------------------- section head -- */
+
+.sec-head {
+  display: grid;
+  gap: 1rem;
+  max-width: 46rem;
+  margin-bottom: clamp(2rem, 5vh, 3.25rem);
+}
+
+.sec-head .panel-id {
+  display: block;
+}
+
+section.demo,
+section.honesty,
+section.pack,
+section.geometry,
+section.get {
+  padding-block: clamp(4rem, 12vh, 8rem);
+}
+
+/* ---------------------------------------------------------------- demo --- */
+
+.demo-shell {
+  background: var(--paper-lit);
+  padding: 0;
+  overflow: hidden;
+}
+
+.demo-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+.demo-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Segmented control, borrowed from every scanning interface worth copying. */
+.seg {
+  display: inline-flex;
+  border: 1px solid rgba(25, 27, 25, 0.24);
+}
+
+.seg button {
+  padding: 0.45rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.seg button + button {
+  border-left: 1px solid rgba(25, 27, 25, 0.24);
+}
+
+.seg button.is-on {
+  background: var(--ink);
+  color: var(--paper-lit);
+}
+
+.seg-sm button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.62rem;
+}
+
+.demo-select {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.42rem 0.6rem;
+  border: 1px solid rgba(25, 27, 25, 0.24);
+  background: transparent;
+  color: var(--ink-2);
+}
+
+.demo-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+}
+
+.demo-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--night);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.demo-frame[data-mode='replay'] {
+  cursor: grab;
+  background: var(--paper);
+}
+
+.demo-frame[data-mode='replay']:active {
+  cursor: grabbing;
+}
+
+.demo-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.demo-chartwrap,
+.chartmap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Corner brackets only. A closed box reads as a viewfinder that has already
+   decided something; brackets read as attention. */
+.reticle {
+  position: absolute;
+  inset: 18%;
+  pointer-events: none;
+}
+
+.reticle-c {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--amber);
+  opacity: 0.9;
+}
+
+.reticle-tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.reticle-tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.reticle-bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.reticle-br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+.reticle-cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  background:
+    linear-gradient(var(--amber), var(--amber)) center/1.5px 100% no-repeat,
+    linear-gradient(var(--amber), var(--amber)) center/100% 1.5px no-repeat;
+  opacity: 0.9;
+}
+
+/* The answer sits at the bottom of the frame and never crosses the middle,
+   because covering the thing being identified with its own identification is
+   the one mistake a scanning interface cannot make. */
+.demo-answer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.28rem;
+  background: linear-gradient(to top, rgba(20, 22, 26, 0.92), rgba(20, 22, 26, 0));
+  color: var(--night-ink);
+  pointer-events: none;
+}
+
+.demo-frame[data-mode='replay'] .demo-answer {
+  background: linear-gradient(to top, rgba(239, 233, 219, 0.96) 40%, rgba(239, 233, 219, 0));
+  color: var(--ink);
+}
+
+.demo-answer .anno {
+  color: var(--amber-lit);
+}
+
+.demo-frame[data-mode='replay'] .demo-answer .anno {
+  color: var(--amber);
+}
+
+.demo-answer-name {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 1.1rem + 1.7vw, 2.35rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.demo-answer-kind {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+/* When the engine has stopped claiming, the answer stops looking confident. */
+.demo-answer[data-band='unresolved'] .demo-answer-name,
+.demo-answer[data-band='coarse'] .demo-answer-name {
+  opacity: 0.72;
+  font-style: italic;
+}
+
+.demo-hint {
+  position: absolute;
+  top: 0.9rem;
+  left: 1rem;
+  color: var(--ink-4);
+  pointer-events: none;
+}
+
+.demo-prime {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 0.9rem;
+  padding: clamp(1.25rem, 5%, 2.5rem);
+  background: var(--night);
+  color: var(--night-ink);
+}
+
+.demo-prime .anno {
+  color: var(--amber-lit);
+}
+
+.demo-prime-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.demo-prime-list li {
+  display: grid;
+  gap: 0.1rem;
+  font-size: 0.9rem;
+  color: rgba(232, 226, 212, 0.72);
+}
+
+.demo-prime-k {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--night-ink);
+}
+
+.demo-prime .btn {
+  border-color: var(--amber);
+  background: var(--amber);
+  color: var(--paper-lit);
+}
+
+.demo-prime-note {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  max-width: 26rem;
+  color: rgba(232, 226, 212, 0.5);
+}
+
+.demo-prime-err {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--amber-lit);
+}
+
+/* Readouts. A chart states its numbers plainly and lets them be checked. */
+.demo-side {
+  border-left: 1px solid rgba(25, 27, 25, 0.14);
+  display: grid;
+  align-content: start;
+  background: var(--paper);
+}
+
+.readout {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.08);
+}
+
+.readout strong {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.demo-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+.demo-play {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(25, 27, 25, 0.24);
+  font-size: 0.7rem;
+  color: var(--ink-2);
+  flex: none;
+}
+
+.demo-play:hover {
+  background: var(--ink);
+  color: var(--paper-lit);
+}
+
+.demo-scrub {
+  flex: 1;
+  min-width: 6rem;
+  accent-color: var(--amber);
+}
+
+.demo-foot-note {
+  text-align: right;
+  text-transform: none;
+  letter-spacing: 0.06em;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 62rem) {
+  .demo-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-side {
+    border-left: 0;
+    border-top: 1px solid rgba(25, 27, 25, 0.14);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .readout:nth-child(odd) {
+    border-right: 1px solid rgba(25, 27, 25, 0.08);
+  }
+
+  .demo-frame {
+    aspect-ratio: 3 / 4;
+  }
+
+  .demo-foot-note {
+    display: none;
+  }
+}
+
+.windowview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The plan view, tucked into a corner of the window view. */
+.demo-inset {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: clamp(7rem, 22%, 11rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(25, 27, 25, 0.3);
+  background: var(--paper);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.demo-inset-tag {
+  position: absolute;
+  bottom: 0.3rem;
+  right: 0.4rem;
+  font-size: 0.55rem;
+  color: var(--ink-4);
+}
+
+@media (max-width: 40rem) {
+  .demo-inset {
+    width: 6rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+/* Aim controls. Deliberately below the frame rather than over it, so they
+   never sit on top of the thing being identified. */
+.demo-aim {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1.5rem;
+  padding: 0.7rem 1rem 0.9rem;
+  border-top: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+.demo-aim-ctl {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.demo-aim-ctl input[type='range'] {
+  width: 100%;
+  min-width: 0;
+  accent-color: var(--amber);
+}
+
+.demo-aim-val {
+  font-size: 0.78rem;
+  color: var(--ink);
+  min-width: 3.4rem;
+  text-align: right;
+}
+
+@media (max-width: 48rem) {
+  .demo-aim {
+    grid-template-columns: 1fr;
+  }
+}

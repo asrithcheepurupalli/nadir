@@ -206,6 +206,44 @@ export class Atlas {
   }
 
   /**
+   * Everything worth drawing inside a bounding box, for the chart renderer.
+   *
+   * Separate from `candidates` on purpose. The resolver wants the few features
+   * that could be the answer; the renderer wants everything visible, including
+   * the coastline the resolver is forbidden to name. Filtering by bbox against
+   * the same grid index keeps a full redraw cheap enough to run per frame.
+   */
+  viewport(west, south, east, north, { maxPoints = 90 } = {}) {
+    const hit = (b) => !(b[2] < west || b[0] > east || b[3] < south || b[1] > north);
+    const padDeg = Math.max(east - west, north - south);
+    const cLat = (north + south) / 2;
+    const cLon = (east + west) / 2;
+
+    const polys = [];
+    for (const i of this.#near(this.index.poly, cLat, cLon, padDeg)) {
+      const p = this.polys[i];
+      if (hit(p.b)) polys.push(p);
+    }
+
+    const lines = [];
+    for (const i of this.#near(this.index.line, cLat, cLon, padDeg)) {
+      const l = this.lines[i];
+      if (hit(l.b)) lines.push(l);
+    }
+
+    // Points are label-bearing, so the map has to ration them or it turns into
+    // a wall of type. Biggest first, which is also most recognisable first.
+    const points = [];
+    for (const i of this.#near(this.index.pt, cLat, cLon, padDeg)) {
+      const p = this.points[i];
+      if (p.x >= west && p.x <= east && p.y >= south && p.y <= north) points.push(p);
+    }
+    points.sort((a, b) => (b.p || b.r * 1e4) - (a.p || a.r * 1e4));
+
+    return { polys, lines, points: points.slice(0, maxPoints) };
+  }
+
+  /**
    * The answer, and the reason it is that answer.
    *
    * @param {number} lat

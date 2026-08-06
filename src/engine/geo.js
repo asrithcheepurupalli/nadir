@@ -162,6 +162,30 @@ export function castRay({ lat, lon, altitude, bearing, depression }, opts = {}) 
   };
 }
 
+/**
+ * The inverse of castRay: given something on the ground at a known range,
+ * how far below level does it appear?
+ *
+ * Put the earth's centre at the origin, the observer A at (0, r) and the
+ * ground point P at (R sin y, R cos y) for central angle y. The local
+ * horizontal at A is the x axis, so the depression of AP is simply
+ *
+ *   atan2(r - R cos y, R sin y)
+ *
+ * which gives 90 degrees at the nadir and exactly the dip angle at the
+ * horizon, with no iteration anywhere.
+ *
+ * This is what lets the atlas be drawn in perspective. Everything visible from
+ * a window is squeezed into the few degrees between straight down and the dip,
+ * and this function is where that squeezing actually happens.
+ */
+export function depressionForGroundRange(groundKm, altitudeM, { refraction = true } = {}) {
+  const R = (R_EARTH * (refraction ? REFRACTION_K : 1)) / 1000;
+  const r = R + Math.max(0, altitudeM) / 1000;
+  const gamma = groundKm / R;
+  return toDeg(Math.atan2(r - R * Math.cos(gamma), R * Math.sin(gamma)));
+}
+
 /* ------------------------------------------------------------- measures */
 
 /** Great-circle distance in km. */

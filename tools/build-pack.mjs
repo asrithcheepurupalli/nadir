@@ -142,7 +142,7 @@ const cityExtentKm = (pop) => {
 function buildPoints() {
   const out = [];
 
-  for (const f of read('ne_50m_populated_places').features) {
+  for (const f of read('ne_10m_populated_places').features) {
     const p = f.properties;
     const name = clean(p.NAME || p.NAMEASCII);
     if (!name) continue;
@@ -302,7 +302,7 @@ function buildPolys() {
 function buildLines() {
   const out = [];
 
-  for (const f of read('ne_50m_rivers_lake_centerlines').features) {
+  for (const f of read('ne_10m_rivers_lake_centerlines').features) {
     // name_en first: Natural Earth's local `name` gives "El Bahr el Azraq"
     // where the English field gives "Blue Nile". On a chart you want the name
     // a passenger would recognise.
