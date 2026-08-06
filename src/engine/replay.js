@@ -40,6 +40,14 @@ export const ROUTES = {
     cruiseAltitude: 11887,
     minutes: 220,
   },
+  'fra-iad': {
+    id: 'fra-iad',
+    name: 'Frankfurt to Washington',
+    from: { code: 'FRA', name: 'Frankfurt am Main', lat: 50.0379, lon: 8.5622 },
+    to: { code: 'IAD', name: 'Washington Dulles', lat: 38.9531, lon: -77.4565 },
+    cruiseAltitude: 11582, // FL380, typical North Atlantic Track cruise
+    minutes: 505,
+  },
 };
 
 /**
