@@ -1,6 +1,6 @@
 # NADIR — status
 
-Built 2026-08-05 to 06. Everything below builds, `npm run test:geo` passes, and
+Built 2026-08-05 to 06. **LIVE at https://nadir.made-by-ac.com** (Vercel `made2/nadir`, GitHub `asrithcheepurupalli/nadir`, public). Everything below builds, `npm run test:geo` passes.
 the full site is running locally.
 
 ## What it is
@@ -91,8 +91,7 @@ Vizag            ±1 → Vishakhapatnam    ±20 → Bay of Bengal
   horizontal overflow, section geometry) and each section was seen rendering
   correctly earlier while the tab was foregrounded. Worth one careful pass with
   the window in front.
-- Not deployed. No GitHub repo yet, no domain. Intended:
-  `nadir.made-by-ac.com`.
+- ~~Not deployed~~ DONE: live, public repo, custom domain.
 - Native app, GeoNames gazetteer, per-route pack slicing.
 - The waitlist form stores to `localStorage`; it needs a real list before
   launch.
