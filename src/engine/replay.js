@@ -48,6 +48,14 @@ export const ROUTES = {
     cruiseAltitude: 11582, // FL380, typical North Atlantic Track cruise
     minutes: 505,
   },
+  'bbi-ixr': {
+    id: 'bbi-ixr',
+    name: 'Bhubaneswar to Ranchi',
+    from: { code: 'BBI', name: 'Biju Patnaik', lat: 20.2444, lon: 85.8178 },
+    to: { code: 'IXR', name: 'Birsa Munda', lat: 23.3143, lon: 85.3217 },
+    cruiseAltitude: 6096, // FL200, short 345 km regional hop
+    minutes: 55,
+  },
 };
 
 /**
