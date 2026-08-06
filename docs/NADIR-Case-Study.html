@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NADIR — case study</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* NADIR's own plate system. One paper stock throughout, chart furniture
+         in mono, argument in the serif. Deliberately not the older house
+         format used by the studio's earlier case studies. */
+      @page { size: A4; margin: 0; }
+
+      :root {
+        --paper: #efe9db;
+        --paper-lit: #f6f2e8;
+        --ink: #191b19;
+        --ink-2: #3f423d;
+        --ink-3: #6b6d64;
+        --ink-4: #9a9a8d;
+        --cyan: #1a6f8a;
+        --amber: #b8510e;
+        --tan: #9c7440;
+        --green: #4a6b3f;
+        --serif: 'Newsreader', Georgia, serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--serif);
+        /* Sized so the two densest spreads, the geometry table and the
+           uncertainty table, both clear an A4 page without the prose having to
+           be cut to fit the paper. */
+        font-size: 9.9pt;
+        line-height: 1.52;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page {
+        width: 210mm;
+        height: 297mm;
+        padding: 17mm 20mm 15mm;
+        margin: 0 auto;
+        position: relative;
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+      }
+      .page:last-child { page-break-after: auto; }
+
+      /* neatline, as on a chart sheet */
+      .page::before {
+        content: '';
+        position: absolute;
+        inset: 10mm;
+        border: 0.4pt solid rgba(25,27,25,.28);
+        pointer-events: none;
+      }
+
+      .anno {
+        font-family: var(--mono);
+        font-size: 6.6pt;
+        letter-spacing: .17em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      .folio {
+        position: absolute;
+        bottom: 11mm; left: 20mm; right: 20mm;
+        display: flex; justify-content: space-between;
+        font-family: var(--mono); font-size: 6.4pt;
+        letter-spacing: .16em; text-transform: uppercase;
+        color: var(--ink-4);
+      }
+
+      h1 { font-weight: 300; font-size: 46pt; line-height: .92; letter-spacing: -.03em; }
+      h2 { font-weight: 300; font-size: 22pt; line-height: 1.03; letter-spacing: -.02em; margin-bottom: 5mm; }
+      h3 { font-weight: 500; font-size: 11pt; margin-bottom: 1.5mm; }
+      i { font-style: italic; color: var(--amber); }
+
+      p { margin-bottom: 3.2mm; color: var(--ink-2); max-width: 165mm; }
+      p.lede { font-size: 13pt; line-height: 1.42; color: var(--ink); margin-bottom: 6mm; }
+
+      .rule { height: .4pt; background: rgba(25,27,25,.25); margin: 6mm 0; }
+      .hair { height: .4pt; background: rgba(25,27,25,.15); margin: 4mm 0; }
+
+      .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+      .cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; }
+
+      table { width: 100%; border-collapse: collapse; font-size: 8.6pt; margin: 3mm 0 5mm; }
+      th {
+        font-family: var(--mono); font-size: 6.4pt; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--ink-4); text-align: right;
+        padding-bottom: 1.6mm; border-bottom: .5pt solid rgba(25,27,25,.35);
+      }
+      th:first-child, td:first-child { text-align: left; }
+      td {
+        text-align: right; padding: 1.5mm 0;
+        border-bottom: .4pt solid rgba(25,27,25,.12);
+        font-family: var(--mono); color: var(--ink-2);
+      }
+      td.t { font-family: var(--serif); }
+      .amber { color: var(--amber); }
+      .green { color: var(--green); }
+
+      code, .mono { font-family: var(--mono); font-size: 8.4pt; }
+
+      pre {
+        font-family: var(--mono); font-size: 7.6pt; line-height: 1.5;
+        background: var(--paper-lit); border-left: 1.5pt solid var(--amber);
+        padding: 3.5mm 4mm; margin: 3mm 0 5mm; white-space: pre-wrap;
+        color: var(--ink-2);
+      }
+
+      .stat { display: grid; gap: 1mm; }
+      .stat b { font-family: var(--mono); font-size: 15pt; font-weight: 500; color: var(--ink); }
+      .stat.big b { font-size: 22pt; color: var(--amber); }
+      .stat span:last-child { font-size: 8.2pt; color: var(--ink-3); line-height: 1.4; }
+
+      .callout {
+        border: .5pt solid rgba(25,27,25,.3);
+        padding: 5mm; margin: 4mm 0;
+        background: var(--paper-lit);
+      }
+
+      ul { margin: 0 0 3mm 4.5mm; }
+      li { margin-bottom: 1.5mm; color: var(--ink-2); }
+
+      .fill { flex: 1; }
+      svg { display: block; }
+      .cap { font-family: var(--mono); font-size: 6.4pt; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-4); margin-top: 2mm; }
+    </style>
+  </head>
+  <body>
+
+  <!-- ============================================================ 01 cover -->
+  <section class="page">
+    <div class="anno">MADE. BY AC · CONCEPT TO WORKING ENGINE · 2026</div>
+    <div class="fill" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="anno" style="margin-bottom:6mm">
+        <span style="color:var(--amber);letter-spacing:.34em;font-weight:700">NADIR</span>
+        &nbsp;&nbsp;n. the point on the ground directly beneath an observer
+      </div>
+      <h1>What <i>is</i> that?</h1>
+      <p class="lede" style="margin-top:7mm;max-width:140mm">
+        Aim a phone out of an aircraft window and it names the ground below.
+        With the radio off, because the entire atlas is already on the device.
+        And it shows you how wrong it might be, instead of a pin it cannot
+        justify.
+      </p>
+
+      <svg viewBox="0 0 640 210" style="width:100%;max-width:170mm;margin-top:4mm">
+        <path d="M 30 40 Q 320 40 620 190" fill="none" stroke="#9c7440" stroke-width="1.6"/>
+        <line x1="30" y1="40" x2="620" y2="40" stroke="#191b19" stroke-opacity=".3" stroke-width="1" stroke-dasharray="6 6"/>
+        <polygon points="30,40 620,40 470,116" fill="#1a6f8a" fill-opacity=".08"/>
+        <line x1="30" y1="40" x2="470" y2="116" stroke="#191b19" stroke-opacity=".4" stroke-width="1"/>
+        <line x1="30" y1="40" x2="250" y2="72" stroke="#b8510e" stroke-width="1.8"/>
+        <circle cx="250" cy="72" r="4" fill="#b8510e"/>
+        <circle cx="30" cy="40" r="3.5" fill="#191b19"/>
+        <text x="486" y="112" font-family="JetBrains Mono" font-size="9" fill="#6b6d64" letter-spacing="1.6">HORIZON 3.21° · 403 KM</text>
+        <text x="36" y="30" font-family="JetBrains Mono" font-size="9" fill="#6b6d64" letter-spacing="1.6">FL370</text>
+      </svg>
+      <div class="cap">SECTION THROUGH THE LINE OF SIGHT · VERTICAL EXAGGERATION</div>
+    </div>
+
+    <div class="cols-3" style="margin-top:6mm">
+      <div class="stat"><span class="anno">Horizon at cruise</span><b>3.21°</b><span>below level, not thirty</span></div>
+      <div class="stat"><span class="anno">And it is</span><b>403 km</b><span>away, which is the problem</span></div>
+      <div class="stat"><span class="anno">Atlas on device</span><b>1.09 MB</b><span>13,394 named features</span></div>
+    </div>
+
+    <div class="folio"><span>NADIR · CASE STUDY</span><span>01</span></div>
+  </section>
+
+  <!-- ========================================================== 02 problem -->
+  <section class="page">
+    <div class="anno">01 · THE PROBLEM</div>
+    <h2 style="margin-top:4mm">Everyone asks. Nobody answers.</h2>
+
+    <div class="cols">
+      <div>
+        <p>
+          There is a question every window seat produces and no product has ever
+          answered well: what is that. A river bending through a plain, a
+          coastline, a city at night. You look at it for ninety seconds and then
+          it is gone and you never find out.
+        </p>
+        <p>
+          The obvious answer is a map app, and the obvious answer fails for two
+          reasons. There is no network at cruise, and a top-down map does not
+          answer the question you actually asked. You did not ask where you are.
+          You asked what <i>that</i> is, out of the window, in a direction, at a
+          distance.
+        </p>
+        <p>
+          Flyover Country, which is NSF funded and free, is the closest existing
+          product and it is genuinely good. It caches your flight path and shows
+          you geology offline. But it is a map: you look down at a dot. Nobody
+          has built the thing where you point the camera and it tells you.
+        </p>
+      </div>
+      <div>
+        <div class="callout">
+          <h3>Three constraints that decide everything</h3>
+          <div class="hair"></div>
+          <p style="margin-bottom:2.5mm"><b>No network.</b> Not slow, none. Anything fetched at 11 km is not going to arrive.</p>
+          <p style="margin-bottom:2.5mm"><b>No trustworthy compass.</b> A magnetometer inside an aluminium tube is a rumour, off by fifteen degrees or worse.</p>
+          <p style="margin-bottom:0"><b>Brutal angular sensitivity.</b> At a 300 km slant range, one degree of error is five kilometres of ground.</p>
+        </div>
+        <p>
+          Any one of those makes the naive build wrong. Together they mean the
+          product is not a mapping problem at all. It is a geometry problem with
+          an error budget, wearing a mapping problem's clothes.
+        </p>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="anno">VERIFIED, NOT ASSUMED</div>
+    <p style="margin-top:2mm">
+      GPS works in aeroplane mode on both iOS and Android. The receiver is
+      passive: it only listens to satellites, so switching off the cellular,
+      wifi and Bluetooth transmitters does not touch it. That single fact is
+      what makes the product possible on both platforms rather than Android
+      only, and it was checked rather than assumed.
+    </p>
+
+    <div class="folio"><span>THE PROBLEM</span><span>02</span></div>
+  </section>
+
+  <!-- ========================================================= 03 geometry -->
+  <section class="page">
+    <div class="anno">02 · THE GEOMETRY</div>
+    <h2 style="margin-top:4mm">Three degrees of everything</h2>
+
+    <p class="lede">
+      At cruise the horizon sits 3.21 degrees below level. The entire visible
+      world, out to 403 kilometres, is folded into a band of sky thinner than a
+      thumb at arm's length.
+    </p>
+
+    <p>
+      The observer sits at a known position and altitude, looking along a known
+      bearing at a known angle below the horizontal. Where does that line of
+      sight meet the ground? A flat earth answers <code>d = h / tan(dep)</code>.
+      That answer is fine for a drone and useless for an airliner, because as
+      the look flattens towards the horizon it runs off to infinity while the
+      real one converges on the limb.
+    </p>
+
+    <p>Solved on a sphere instead. O is the earth's centre, A the observer at radius r = R + h, P the ground intersection at radius R:</p>
+
+    <pre>angle OAP = 90 - dep                     (ray off the downward vertical)
+sin(OPA)  = (r / R) · cos(dep)           (law of sines)
+
+gamma     = asin((r/R)·cos(dep)) + dep - 90
+
+null when (r/R)·cos(dep) > 1             (the ray clears the limb)</pre>
+
+    <p>
+      Returning null there is the difference between saying "sky" and inventing
+      a ground point, and it is why the near-horizon behaviour tells the truth.
+    </p>
+
+    <h3 style="margin-top:4mm">What the flat approximation costs</h3>
+    <table>
+      <thead>
+        <tr><th>Look down</th><th>Flat earth</th><th>Sphere</th><th>Flat is short by</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>45°</td><td>11.3 km</td><td>11.3 km</td><td class="green">0.1%</td></tr>
+        <tr><td>20°</td><td>31.0 km</td><td>31.2 km</td><td class="green">0.6%</td></tr>
+        <tr><td>10°</td><td>64.0 km</td><td>65.7 km</td><td>2.6%</td></tr>
+        <tr><td>5°</td><td>128.9 km</td><td>145.8 km</td><td class="amber">11.6%</td></tr>
+        <tr><td>4°</td><td>161.3 km</td><td>201.7 km</td><td class="amber">20.0%</td></tr>
+        <tr><td>3.21°</td><td>201 km</td><td>403 km</td><td class="amber">the horizon</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      The surface curves away beneath the ray, so the ground has dropped by the
+      time the ray arrives. At the horizon the flat model is out by a factor of
+      two.
+    </p>
+
+    <div class="callout">
+      <h3>And the view does not recede evenly</h3>
+      <p style="margin:2mm 0 0">
+        10 km of ground sits 48.51° below level. 100 km sits at 6.84°. 400 km
+        sits at 3.21°. The first ten kilometres take up more of your window than
+        everything between one hundred and four hundred put together.
+      </p>
+    </div>
+
+    <div class="folio"><span>THE GEOMETRY</span><span>03</span></div>
+  </section>
+
+  <!-- ======================================================== 04 sensors -->
+  <section class="page">
+    <div class="anno">03 · WHAT TO BELIEVE</div>
+    <h2 style="margin-top:4mm">Do not trust the compass</h2>
+
+    <div class="cols">
+      <div>
+        <p>
+          The tempting build reads the magnetometer, because it hands you a
+          bearing for free. Inside a fuselage, beside a seat-back screen, a
+          power bus and three hundred other phones, that bearing is worth
+          nothing. Fifteen degrees of error is normal. Fifteen degrees at a
+          300 km slant range is a hundred kilometres of ground.
+        </p>
+        <p>
+          So heading comes from somewhere else entirely. Differentiate
+          consecutive GPS fixes and the aircraft's course over ground falls out
+          to a fraction of a degree, with no magnetic interference at all. An
+          airliner in cruise flies a very straight line very fast, which is the
+          ideal case for that measurement.
+        </p>
+        <h3 style="margin-top:5mm">The window is the calibration</h3>
+        <p>
+          That gives the aircraft's heading, not the phone's. Turning one into
+          the other needs a single known relationship, and the cabin supplies it
+          free: a window is perpendicular to the direction of flight. Hold the
+          phone flat against the glass, say which side you are sitting on, and
+          the offset is solved without the magnetometer being consulted once.
+        </p>
+        <p>
+          Depression is the easy half. It comes from the gravity vector, which
+          is absolute and needs no calibration. The one thing that breaks it is
+          a turn: in a coordinated turn the accelerometer reads perpendicular to
+          the wings rather than towards the centre of the earth, so down stops
+          pointing down. The app detects the turn from the GPS track and
+          declines to answer until the wings are level.
+        </p>
+      </div>
+      <div>
+        <div class="stat big" style="margin-bottom:5mm">
+          <span class="anno">Magnetometer, in a cabin</span>
+          <b>± 15°</b>
+          <span>which is 100 km of ground at cruise range</span>
+        </div>
+        <div class="stat big" style="margin-bottom:5mm">
+          <span class="anno">Heading from the GPS track</span>
+          <b>± 0.5°</b>
+          <span>a thirtyfold improvement, for free, from data already on hand</span>
+        </div>
+
+        <div class="hair"></div>
+        <h3>The error budget</h3>
+        <table>
+          <thead><tr><th>Source</th><th>1σ</th></tr></thead>
+          <tbody>
+            <tr><td class="t">GPS position</td><td>10 m</td></tr>
+            <tr><td class="t">GPS altitude</td><td>30 m</td></tr>
+            <tr><td class="t">Heading, track derived</td><td>0.5°</td></tr>
+            <tr><td class="t">Pitch, still air</td><td>1.0°</td></tr>
+            <tr><td class="t">Pitch, turbulence</td><td>3.0°</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:9pt">
+          Position barely matters and angle is everything. It is an angle
+          problem wearing a location problem's clothes.
+        </p>
+      </div>
+    </div>
+
+    <div class="folio"><span>WHAT TO BELIEVE</span><span>04</span></div>
+  </section>
+
+  <!-- ======================================================= 05 uncertainty -->
+  <section class="page">
+    <div class="anno">04 · THE ARGUMENT</div>
+    <h2 style="margin-top:4mm">A pin would be a <i>lie</i></h2>
+
+    <p class="lede">
+      Every other product would drop a marker and let you assume it was right.
+      The geometry does not support that. What it supports is an ellipse, and
+      the ellipse is a very strange shape.
+    </p>
+
+    <p>
+      Propagating the sensor errors through the ray-cast gives a ground-space
+      ellipse. Across the line of sight it stays sharp, because track-derived
+      heading is good to half a degree. Along the line of sight it smears,
+      because ground distance is savagely sensitive to look angle near the
+      horizon. <b>The two axes are perpendicular and they never mix.</b> That is
+      why the shape is a sliver and never a circle, and why the app can tell you
+      which river you are over while having no idea how far along it you are.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Look down</th><th>Lands at</th><th>Error along</th><th>Error across</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>80°</td><td>2.0 km</td><td>0.2 km</td><td>0.02 km</td><td class="green">Pinned</td></tr>
+        <tr><td>45°</td><td>11.3 km</td><td>0.4 km</td><td>0.10 km</td><td class="green">Pinned</td></tr>
+        <tr><td>15°</td><td>42.6 km</td><td>3.0 km</td><td>0.37 km</td><td class="green">Pinned</td></tr>
+        <tr><td>10°</td><td>65.8 km</td><td>7.1 km</td><td>0.57 km</td><td>Confident</td></tr>
+        <tr><td>5°</td><td>146.1 km</td><td>38.3 km</td><td>1.28 km</td><td>Approximate</td></tr>
+        <tr><td>4°</td><td>202.2 km</td><td>84.8 km</td><td>1.76 km</td><td class="amber">Coarse</td></tr>
+        <tr><td>3.3°</td><td>317.4 km</td><td>unbounded</td><td>2.77 km</td><td class="amber">Unresolved</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <h3>The measurement the product is built on</h3>
+      <div class="hair"></div>
+      <div class="cols" style="gap:6mm">
+        <div class="stat big"><span class="anno">0.001° near the horizon</span><b>9.9 km</b><span>of ground</span></div>
+        <div class="stat big"><span class="anno">The identical 0.001° at 60° down</span><b>0.3 m</b><span>of ground</span></div>
+      </div>
+      <p style="margin:4mm 0 0">
+        The same angular twitch is worth thirty-three thousand times more ground
+        near the limb, because ground distance goes as the square root of the
+        angle below the dip. This is not a claim, it is a measurement, and it is
+        printed by the test suite.
+      </p>
+    </div>
+
+    <h3>Which makes the resolver's job a different question</h3>
+    <p>
+      Not "what is nearest" but "what is the most specific thing I am entitled
+      to say, given how wrong I might be". A feature only qualifies if it is at
+      least as large as the error radius. Below that, choosing it over its
+      neighbours is a guess in a confident font.
+    </p>
+
+    <pre>on the Krishna   ±1 km → Krishna (river)   ±5 → Eastern Ghats   ±250 → India
+over Delhi       ±1 km → New Delhi         ±20 → Delhi          ±80  → Ganges Plain
+Everest          ±1 km → Mount Everest      ±80 → Himalayas
+Vizag            ±1 km → Vishakhapatnam     ±20 → Bay of Bengal</pre>
+
+    <div class="folio"><span>THE ARGUMENT</span><span>05</span></div>
+  </section>
+
+  <!-- ============================================================ 06 pack -->
+  <section class="page">
+    <div class="anno">05 · THE OFFLINE PACK</div>
+    <h2 style="margin-top:4mm">The whole world, 1.09 MB</h2>
+
+    <div class="cols">
+      <div>
+        <p>
+          Nothing is fetched in flight, so everything the resolver can name has
+          to already be on the device. Three primitives come out of that,
+          because three different kinds of question get asked of a point on the
+          ground: points match by radius, polygons by containment, lines by
+          distance.
+        </p>
+        <p>
+          The source is Natural Earth, public domain, simplified with an
+          iterative Douglas-Peucker and rounded to about a hundred metres.
+          Nothing on board needs more precision, because the sensors are the
+          limit long before the map is.
+        </p>
+        <p>
+          Because it is all local there is no account, no telemetry and nothing
+          to leak. The position never leaves the phone for the simple reason
+          that there is nowhere for it to go.
+        </p>
+
+        <div class="hair"></div>
+        <h3>Honest limits</h3>
+        <ul>
+          <li>State boundaries currently cover nine countries, which happen to be the large flight geographies.</li>
+          <li>The gazetteer is Natural Earth rather than a full GeoNames extract, so rural areas fall back to regions sooner than they need to.</li>
+          <li>Both are pack upgrades, not engine changes.</li>
+        </ul>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>Layer</th><th>Count</th></tr></thead>
+          <tbody>
+            <tr><td class="t">Towns and cities</td><td>7,342</td></tr>
+            <tr><td class="t">River segments</td><td>2,289</td></tr>
+            <tr><td class="t">Coastline runs</td><td>1,453</td></tr>
+            <tr><td class="t">Named summits</td><td>644</td></tr>
+            <tr><td class="t">Lakes</td><td>313</td></tr>
+            <tr><td class="t">States and provinces</td><td>292</td></tr>
+            <tr><td class="t">Islands</td><td>267</td></tr>
+            <tr><td class="t">Countries</td><td>215</td></tr>
+            <tr><td class="t">Mountain ranges</td><td>129</td></tr>
+            <tr><td class="t">Seas, bays, gulfs</td><td>114</td></tr>
+            <tr><td class="t">Capes</td><td>111</td></tr>
+            <tr><td class="t">Plateaus</td><td>45</td></tr>
+            <tr><td class="t">Deserts</td><td>35</td></tr>
+            <tr><td class="t">Deltas</td><td>12</td></tr>
+          </tbody>
+        </table>
+        <div class="cols" style="gap:5mm">
+          <div class="stat"><span class="anno">Compressed</span><b>1.09 MB</b></div>
+          <div class="stat"><span class="anno">Features</span><b>13,394</b></div>
+        </div>
+        <div style="margin-top:4mm" class="stat"><span class="anno">Requests made in flight</span><b>0</b></div>
+      </div>
+    </div>
+
+    <div class="folio"><span>THE OFFLINE PACK</span><span>06</span></div>
+  </section>
+
+  <!-- ======================================================= 07 interface -->
+  <section class="page">
+    <div class="anno">06 · THE INTERFACE</div>
+    <h2 style="margin-top:4mm">Drawing the atlas in perspective</h2>
+
+    <p>
+      The demo has to be honest on a laptop, so it runs two ways into one
+      engine. On a phone above ten kilometres the sensors are real. Anywhere
+      else a scripted flight supplies the two things a laptop genuinely cannot,
+      a position at altitude and a direction of flight. Everything downstream is
+      the same code, and both emit the identical observer shape, so the replay
+      is a demonstration rather than a mock-up.
+    </p>
+
+    <p>
+      The main view is not a map. It is the view out of the window,
+      reconstructed from vectors: every river, coastline and town projected
+      through a real pinhole camera model from the aircraft's position, using
+      the closed-form inverse of the ray-cast.
+    </p>
+
+    <pre>depression = atan2(r - R·cos(gamma), R·sin(gamma))
+
+90° at the nadir, exactly the dip angle at the horizon,
+no iteration. Round-trips against castRay to 2.4e-12 degrees.</pre>
+
+    <p>
+      Which makes the argument visible in a way prose cannot. Range arcs drawn
+      at 25, 50, 100, 200 and 400 km stack up ever closer together towards the
+      horizon. You can see the ground being crushed. The picture and the maths
+      are the same argument.
+    </p>
+
+    <div class="cols">
+      <div>
+        <h3>Art direction</h3>
+        <p>
+          A VFR sectional chart, not an illustration of one: buff stock rather
+          than white, cyan for water, tan for terrain relief, hairline
+          neatlines, tiny mono annotation on everything. Type is either a serif
+          making an argument or mono stating a fact, with nothing in between.
+        </p>
+        <p>
+          The single action colour is aviation amber. It is what the industry
+          has always used to mean "caution, pay attention to this", which for a
+          product whose entire subject is how wrong it might be, is the correct
+          accent.
+        </p>
+      </div>
+      <div>
+        <h3>Where the honesty shows up in the design</h3>
+        <ul>
+          <li>The answer is never a pin. It is an ellipse lying along the line of sight.</li>
+          <li>The result card never covers the frame it is identifying.</li>
+          <li>As confidence drains, the typography loses confidence with it: the answer goes italic and fades.</li>
+          <li>Past the limb it says "sky" rather than guessing.</li>
+          <li>Every number on screen is computed live, not written into the copy.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="folio"><span>THE INTERFACE</span><span>07</span></div>
+  </section>
+
+  <!-- ========================================================= 08 business -->
+  <section class="page">
+    <div class="anno">07 · THE PRODUCT</div>
+    <h2 style="margin-top:4mm">Five dollars, once</h2>
+
+    <div class="cols">
+      <div>
+        <p>
+          There is no server, so there is nothing to charge rent for. No
+          subscription, no account, no advertising, no analytics. A subscription
+          here would be indefensible and travellers punish it.
+        </p>
+        <p>
+          The precedent is exact. SkyView is a one-time purchase of about five
+          dollars and has sold in the millions doing this for the sky. NADIR is
+          SkyView pointed down.
+        </p>
+        <h3 style="margin-top:5mm">Web is the demo, native is the product</h3>
+        <p>
+          The web build proves the engine and is free forever. The app is what
+          you want in seat 21A: the barometer for altitude instead of GPS,
+          proper sensor fusion rather than DeviceOrientation, and packs that are
+          still on the device a fortnight after download.
+        </p>
+        <h3 style="margin-top:5mm">Open the engine, sell the app</h3>
+        <p>
+          The geometry and uncertainty modules are MIT. It is what makes "we
+          tell you when we do not know" verifiable rather than a marketing line,
+          and it gives up nothing: the product is the app, the packs and the
+          sensor work.
+        </p>
+      </div>
+      <div>
+        <div class="callout">
+          <h3>What is built</h3>
+          <div class="hair"></div>
+          <ul style="margin-bottom:0">
+            <li>Spherical ray-cast with refraction, and a test suite that passes</li>
+            <li>Error propagation to a ground ellipse with confidence bands</li>
+            <li>Resolver with graceful degradation from landmark to region</li>
+            <li>13,394 feature offline pack, built from public-domain data</li>
+            <li>Perspective window view and track-up chart, both from the pack</li>
+            <li>Live sensor path and scripted replay, one engine</li>
+            <li>Service worker: the page itself works offline</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <h3>What is next</h3>
+          <div class="hair"></div>
+          <ul style="margin-bottom:0">
+            <li>Native build, for the barometer and durable storage</li>
+            <li>GeoNames gazetteer for rural density</li>
+            <li>Per-route pack slicing, so you carry a corridor not a planet</li>
+            <li>Real device testing at altitude, which no amount of maths substitutes for</li>
+          </ul>
+        </div>
+
+        <div class="hair"></div>
+        <div class="anno">DATA</div>
+        <p style="font-size:9pt;margin-top:1.5mm">
+          Natural Earth, public domain. Coastlines, rivers, physical regions,
+          administrative boundaries and populated places.
+        </p>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+    <p style="font-size:12pt;font-family:var(--serif);max-width:150mm">
+      You will still not know what most of it is called. But you will know when
+      you <i>do</i>.
+    </p>
+
+    <div class="folio"><span>MADE. BY AC · NADIR</span><span>08</span></div>
+  </section>
+
+  </body>
+</html>
