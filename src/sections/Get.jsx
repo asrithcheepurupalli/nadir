@@ -31,7 +31,7 @@ export default function Get() {
       <div className="wrap">
         <div className="get-grid">
           <div data-reveal>
-            <span className="panel-id">05 / GET IT</span>
+            <span className="panel-id">06 / GET IT</span>
             <h2 className="title t-xl get-h2">
               Five dollars. <span className="serif-italic">Once.</span>
             </h2>

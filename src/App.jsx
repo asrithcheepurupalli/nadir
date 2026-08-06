@@ -2,6 +2,7 @@ import Nav from './components/Nav.jsx';
 import Hero from './sections/Hero.jsx';
 import Demo from './sections/Demo.jsx';
 import Honesty from './sections/Honesty.jsx';
+import Proof from './sections/Proof.jsx';
 import Geometry from './sections/Geometry.jsx';
 import Pack from './sections/Pack.jsx';
 import Get from './sections/Get.jsx';
@@ -42,6 +43,7 @@ export default function App() {
         <Hero />
         <Demo />
         <Honesty />
+        <Proof />
         <Geometry />
         <Pack />
         <Get />

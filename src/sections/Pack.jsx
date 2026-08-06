@@ -20,7 +20,7 @@ export default function Pack() {
     <section className="pack" id="pack" data-tone="light">
       <div className="wrap">
         <header className="sec-head" data-reveal>
-          <span className="panel-id">04 / OFFLINE</span>
+          <span className="panel-id">05 / OFFLINE</span>
           <h2 className="title t-xl">
             The whole world, <span className="serif-italic">{PACK.gzipMB} MB</span>
           </h2>

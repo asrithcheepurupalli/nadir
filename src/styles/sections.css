@@ -894,17 +894,25 @@ section.get {
   height: 100%;
 }
 
-/* The plan view, tucked into a corner of the window view. */
+/* The plan view, tucked into a corner of the window view. A real button, so
+   it can be opened rather than only looked at. */
 .demo-inset {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
   width: clamp(7rem, 22%, 11rem);
   aspect-ratio: 1;
+  padding: 0;
   border: 1px solid rgba(25, 27, 25, 0.3);
   background: var(--paper);
   overflow: hidden;
-  pointer-events: none;
+  cursor: pointer;
+  transition: border-color var(--fast) var(--ease);
+}
+
+.demo-inset:hover,
+.demo-inset:focus-visible {
+  border-color: var(--amber);
 }
 
 .demo-inset-tag {
@@ -920,6 +928,78 @@ section.get {
     width: 6rem;
     top: 0.5rem;
     right: 0.5rem;
+  }
+}
+
+/* The full plan view, opened from the inset. Same canvas, same engine, just
+   given the whole viewport instead of a corner of it. */
+.mapview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  padding: clamp(0.75rem, 4vw, 2.5rem);
+  background: rgba(20, 22, 26, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.mapview-shell {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 100%;
+  height: 100%;
+  max-width: 64rem;
+  max-height: 44rem;
+  margin: auto;
+  background: var(--paper);
+  border: 1px solid rgba(25, 27, 25, 0.3);
+}
+
+.mapview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(25, 27, 25, 0.14);
+}
+
+.mapview-close {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid rgba(25, 27, 25, 0.24);
+  color: var(--ink-2);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.mapview-close:hover {
+  background: var(--ink);
+  color: var(--paper-lit);
+}
+
+.mapview-canvas {
+  position: relative;
+  overflow: hidden;
+}
+
+.mapview-canvas .chartmap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 40rem) {
+  .mapview-overlay {
+    padding: 0.5rem;
+  }
+
+  .mapview-shell {
+    max-height: none;
   }
 }
 
@@ -1132,6 +1212,172 @@ section.get {
   color: rgba(232, 226, 212, 0.55);
   text-align: center;
   text-wrap: balance;
+}
+
+/* ================================================================ proof === */
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.proof-quote {
+  margin: 0;
+  padding: 1.75rem 1.5rem;
+  background: var(--paper-2);
+  border-left: 2px solid var(--amber);
+  display: grid;
+  gap: 1rem;
+}
+
+.proof-quote .anno {
+  color: var(--ink-4);
+}
+
+.proof-quote blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.proof-quote cite {
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+
+.proof-panel {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.proof-alt {
+  border: 1px solid rgba(25, 27, 25, 0.14);
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.proof-alt-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.proof-alt-item {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.proof-alt-item strong {
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem);
+}
+
+.proof-alt-item.is-amber strong {
+  color: var(--amber);
+}
+
+.proof-alt-k {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+
+.proof-alt-x {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-4);
+}
+
+.proof-alt-row-read {
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(25, 27, 25, 0.16);
+  justify-content: space-between;
+}
+
+.proof-alt-diff {
+  color: var(--ink-4);
+  text-align: right;
+}
+
+.proof-stages {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.proof-stage-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.proof-stage {
+  position: relative;
+  border: 1px solid rgba(25, 27, 25, 0.14);
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.proof-stage .anno {
+  color: var(--ink-4);
+}
+
+.proof-stage-name {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+.proof-stage[data-band='coarse'] .proof-stage-name {
+  font-style: italic;
+  opacity: 0.75;
+}
+
+.proof-stage-band {
+  color: var(--ink-3);
+}
+
+.proof-stage[data-band='confident'] .proof-stage-band {
+  color: var(--amber);
+}
+
+.proof-stage-note {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.proof-stage-arrow {
+  position: absolute;
+  top: 50%;
+  right: -0.85rem;
+  width: 0.7rem;
+  height: 1px;
+  background: var(--tan);
+  transform: translateY(-50%);
+}
+
+.proof-stage-arrow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-right: 1px solid var(--tan);
+  border-bottom: 1px solid var(--tan);
+  transform: translateY(-50%) rotate(-45deg);
 }
 
 /* ============================================================= geometry === */
@@ -1550,6 +1796,7 @@ section.get {
 
 @media (max-width: 62rem) {
   .hon-grid,
+  .proof-grid,
   .geo-table,
   .pack-grid,
   .get-grid {
@@ -1606,6 +1853,34 @@ section.get {
   .close-bar {
     flex-direction: column;
     gap: 0.4rem;
+  }
+
+  .proof-stage-row {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-stage-arrow {
+    top: auto;
+    bottom: -0.85rem;
+    right: 50%;
+    width: 1px;
+    height: 0.7rem;
+    transform: translateX(50%);
+  }
+
+  .proof-stage-arrow::after {
+    right: 50%;
+    top: 100%;
+    transform: translate(50%, -50%) rotate(-45deg);
+  }
+
+  .proof-alt-row-read {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .proof-alt-diff {
+    text-align: left;
   }
 }
 

@@ -34,6 +34,7 @@ export default function Demo() {
   const [playing, setPlaying] = useState(false);
   const [liveState, setLiveState] = useState('idle'); // idle | asking | running | denied
   const [liveError, setLiveError] = useState(null);
+  const [mapOpen, setMapOpen] = useState(false);
 
   const replayRef = useRef(null);
   const sensorsRef = useRef(null);
@@ -111,6 +112,15 @@ export default function Demo() {
   }, []);
 
   useEffect(() => () => stopLive(), [stopLive]);
+
+  useEffect(() => {
+    if (!mapOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMapOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mapOpen]);
 
   const switchMode = (next) => {
     if (next === mode) return;
@@ -273,8 +283,19 @@ export default function Demo() {
 
               {/* The plan view, inset. A perspective view alone leaves you with
                   no idea where you are; the chart alone is not what the window
-                  shows you. Both, and the small one is the map. */}
-              <div className="demo-inset">
+                  shows you. Both, and the small one is the map. Tappable,
+                  because a passenger who wants to see more of the route than a
+                  thumbnail allows should not need to guess that it opens. */}
+              <button
+                type="button"
+                className="demo-inset"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMapOpen(true);
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+                aria-label="Open the full plan view"
+              >
                 <ChartMap
                   atlas={atlas}
                   observer={observer}
@@ -286,8 +307,8 @@ export default function Demo() {
                   // Maharashtra has no named neighbours that close.
                   spanKm={Math.max(300, Math.min(1100, (fix?.groundKm ?? 60) * 7))}
                 />
-                <span className="anno demo-inset-tag">Plan</span>
-              </div>
+                <span className="anno demo-inset-tag">Plan · tap to open</span>
+              </button>
 
               {/* the reticle: corner brackets, never a full box */}
               <div className="reticle" aria-hidden="true">
@@ -524,6 +545,42 @@ export default function Demo() {
             </div>
           )}
         </div>
+
+        {mapOpen && (
+          <div
+            className="mapview-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Full plan view"
+            onClick={() => setMapOpen(false)}
+          >
+            <div className="mapview-shell" onClick={(e) => e.stopPropagation()}>
+              <div className="mapview-bar">
+                <span className="anno">
+                  {observer?.routeName ?? 'Plan view'}
+                  {fix ? ` · ${fix.groundKm.toFixed(0)} km ground range` : ''}
+                </span>
+                <button
+                  type="button"
+                  className="mapview-close"
+                  onClick={() => setMapOpen(false)}
+                  aria-label="Close the plan view"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="mapview-canvas">
+                <ChartMap
+                  atlas={atlas}
+                  observer={observer}
+                  fix={fix}
+                  result={result}
+                  spanKm={Math.max(200, Math.min(2000, (fix?.groundKm ?? 60) * 4))}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

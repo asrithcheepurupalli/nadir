@@ -16,7 +16,7 @@ export default function Geometry() {
     <section className="geometry" id="geometry" data-tone="light">
       <div className="wrap">
         <header className="sec-head" data-reveal>
-          <span className="panel-id">03 / HOW</span>
+          <span className="panel-id">04 / HOW</span>
           <h2 className="title t-xl">
             Three degrees of <span className="serif-italic">everything</span>
           </h2>

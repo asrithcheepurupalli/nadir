@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 const LINKS = [
   { href: '#demo', label: 'Try it' },
-  { href: '#geometry', label: 'How' },
   { href: '#honesty', label: 'Honesty' },
+  { href: '#proof', label: 'It flew' },
+  { href: '#geometry', label: 'How' },
   { href: '#pack', label: 'Offline' },
   { href: '#get', label: 'Get it' },
 ];
