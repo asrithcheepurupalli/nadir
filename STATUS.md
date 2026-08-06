@@ -1,7 +1,10 @@
 # NADIR — status
 
-Built 2026-08-05 to 06. **LIVE at https://nadir.made-by-ac.com** (Vercel `made2/nadir`, GitHub `asrithcheepurupalli/nadir`, public). Everything below builds, `npm run test:geo` passes.
-the full site is running locally.
+Built 2026-08-05 to 06.
+
+**LIVE at https://nadir.made-by-ac.com** — Vercel project `made2/nadir`, repo
+`asrithcheepurupalli/nadir` (public). Everything below builds and
+`npm run test:geo` passes.
 
 ## What it is
 
