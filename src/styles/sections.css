@@ -170,11 +170,21 @@
   display: grid;
   place-items: center;
   opacity: 0;
+  pointer-events: none;
   transition: opacity var(--med) var(--ease);
+}
+
+/* [hidden] and display: grid are equal specificity, and the author rule
+   wins the cascade regardless of source order, so the sheet stayed a
+   full-viewport fixed layer at all times, invisible but still capturing
+   every click and scroll on the page underneath it. */
+.nav-sheet[hidden] {
+  display: none;
 }
 
 .nav-sheet.is-open {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .nav-sheet nav {
