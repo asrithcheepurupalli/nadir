@@ -45,7 +45,8 @@ export default function Close() {
 
         <div className="close-bar">
           <span className="anno">
-            © {new Date().getFullYear()} made. by ac
+            © {new Date().getFullYear()} made. by ac ·{" "}
+            <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
           </span>
           <span className="anno">
             Built with the radio off
